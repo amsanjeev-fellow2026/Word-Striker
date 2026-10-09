@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dream Team Word Striker</title>
+<style>
+:root{--bg:#f6f5f1;--ink:#17261f;--mut:#6d7a73;--acc:#1f7a57;--accd:#175c42;--warm:#e0a030;--line:#e4e2da;--soft:#eef4f0;--footer-h:clamp(20px,3.2vh,30px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;width:100%;font-family:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);border-radius:1.4vh;background:#fff;padding:.9vh 1.8vh;font-weight:600;font-size:2vh;transition:background .15s,border-color .15s}
+button:hover:not(:disabled){border-color:var(--acc)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.pri{background:var(--acc);border-color:var(--acc);color:#fff}.pri:hover:not(:disabled){background:var(--accd);border-color:var(--accd)}
+.ghost{border-color:transparent;background:transparent;color:var(--mut);font-size:1.8vh;padding:.6vh 1.2vh}
+.lnk{border:0;background:none;color:var(--acc);text-decoration:underline;font-size:1.9vh}
+#ft{position:fixed;left:0;right:0;bottom:0;height:var(--footer-h);display:flex;align-items:center;justify-content:center;font-size:1.6vh;color:var(--mut);background:var(--bg);border-top:1px solid var(--line);z-index:50;white-space:nowrap;overflow:hidden;padding:0 1vh}
+#app{height:calc(100% - var(--footer-h));height:calc(100dvh - var(--footer-h));display:flex;flex-direction:column;gap:1.2vh;padding:1.4vh 1.6vw}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:1vh}
+.brand{font-size:2.6vh;font-weight:800;letter-spacing:.05vh}.brand span{color:var(--acc)}
+.row{display:flex;flex-wrap:wrap;gap:1vh;justify-content:center;align-items:center}
+.auth{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6vh}
+.logo{font-size:6vh;font-weight:800}.logo span{color:var(--acc)}
+.tag{font-size:2.3vh;color:var(--mut)}
+.card{background:#fff;border:1px solid var(--line);border-radius:2.4vh;box-shadow:0 1vh 3vh #17261f12}
+.a{width:min(92vw,52vh);padding:2.4vh;display:flex;flex-direction:column;gap:1.3vh}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:.6vh;background:var(--soft);padding:.5vh;border-radius:1.6vh}
+.tabs button{border:0;background:transparent;color:var(--mut)}.tabs button.on{background:#fff;color:var(--ink);box-shadow:0 .2vh .8vh #0001}
+input{font-size:2.2vh;padding:1.3vh 1.6vh;border-radius:1.3vh;border:1px solid var(--line);background:#fff;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--acc)}
+.err{color:#b4442c;font-weight:600;min-height:2.6vh;font-size:2vh;text-align:center}
+.fine{font-size:1.6vh;color:var(--mut);text-align:center;line-height:1.4}
+.setup{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4vh}
+.title{font-size:5vh;font-weight:800;text-align:center}.title span{color:var(--acc)}
+.sub{font-size:1.9vh;letter-spacing:.3vh;color:var(--mut);font-weight:600}
+.sec{width:100%}
+.lbl{font-size:2vh;font-weight:700;color:var(--mut);text-align:center;margin-bottom:.7vh;text-transform:uppercase;letter-spacing:.15vh}
+.two{display:flex;gap:4vw;justify-content:center}
+.opt.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.setup input{width:25vh;text-align:center}
+.big{font-size:3vh;padding:1.2vh 5vh}
+#sb{display:flex;gap:1vh;align-items:stretch;padding:.8vh 1.2vh}
+.tm{flex:1;text-align:center;border-bottom:.5vh solid transparent;padding:.3vh}
+.tm.act{border-bottom-color:var(--acc)}
+.tm b{display:block;font-size:2.1vh;color:var(--mut);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm .n{font-size:6vh;font-weight:800;line-height:1.05}
+.tm button{font-size:1.5vh;padding:.3vh 1vh;margin-top:.3vh}
+.mid{flex:1.1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:2vh;letter-spacing:.2vh}
+.mid small{color:var(--mut);font-size:1.7vh;font-weight:600;letter-spacing:0}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:1.05fr 1fr;gap:1.4vh}
+.scene{position:relative;min-height:0;border-radius:2.4vh;overflow:hidden;border:1px solid var(--line);background:repeating-linear-gradient(90deg,#e9f2ec 0 7vw,#e2eee7 7vw 14vw)}
+.board{position:absolute;top:1.6vh;left:0;right:0;text-align:center;color:var(--mut);font-weight:700;font-size:1.8vh;letter-spacing:1vh}
+.goal{position:absolute;left:50%;top:9%;transform:translateX(-50%);height:46%;aspect-ratio:2.1/1;max-width:94%;border:.6vh solid #2b3b34;border-bottom:0;border-radius:.8vh .8vh 0 0;background:#fff8;background-image:linear-gradient(#17261f1a .2vh,transparent .2vh),linear-gradient(90deg,#17261f1a .2vh,transparent .2vh);background-size:2.4vh 2.4vh}
+.goal.net{animation:ripple .6s}
+.keeper{position:absolute;left:0;right:0;bottom:0;height:66%;display:flex;justify-content:center}
+.keeper svg{height:100%;width:auto;aspect-ratio:.6;animation:sway 1.2s ease-in-out infinite alternate}
+.ball{position:absolute;left:50%;bottom:6%;width:8vh;height:8vh;margin-left:-4vh;z-index:3}
+.spot{position:absolute;left:50%;bottom:4%;width:11vh;height:2.4vh;margin-left:-5.5vh;border-radius:50%;background:#17261f14}
+.bn{position:fixed;left:0;right:0;top:38%;text-align:center;font-size:14vh;font-weight:800;z-index:30;pointer-events:none;text-shadow:0 .4vh 2vh #fff;animation:pop .6s,out .5s 1.8s forwards}
+.bn.goal{color:var(--acc)}.bn.assist{color:#c58512}.bn.team{color:#52707f;font-size:9vh}
+.pan{display:flex;flex-direction:column;gap:1.2vh;padding:1.6vh 2vh;min-height:0}
+.rd{font-size:1.8vh;font-weight:700;color:var(--mut);text-align:center;letter-spacing:.2vh}
+.word{flex:1;min-height:0;font-size:14vh;font-weight:800;text-align:center;line-height:1.1;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.word.s{font-size:5vh;line-height:1.3}.word.p{font-size:3.3vh;line-height:1.4;font-weight:700}
+.word.s span,.word.p span{display:block}
+.hl{color:var(--acc);text-decoration:underline;text-decoration-thickness:.5vh;text-underline-offset:.8vh}
+.ref{min-height:6vh;font-size:2.3vh;color:var(--mut);text-align:center;display:flex;align-items:center;justify-content:center}
+.done{font-size:3.4vh;padding:1.6vh 0;width:100%}
+.tp{display:flex;flex-direction:column;gap:1vh}
+.tl{font-size:2vh;font-weight:700;color:var(--mut);text-align:center}
+.tb{display:grid;grid-template-columns:1fr 1fr;gap:1vh}
+.tb button{font-size:2.3vh;padding:1.5vh 1vh;border-width:2px}
+.g1{background:#e3f3ea;border-color:#b6dcc6;color:#175c42}.g2{background:#e0f2f1;border-color:#b2dcd8;color:#115e59}
+.g3{background:#fdf0d9;border-color:#f0d49e;color:#8a5a0a}.g4{background:#ece7f8;border-color:#cfc3ec;color:#4c3a8a}
+.pr{font-size:2.3vh;text-align:center;line-height:1.4}
+.ov{position:fixed;inset:0 0 var(--footer-h) 0;background:#17261f66;backdrop-filter:blur(.6vh);display:flex;align-items:center;justify-content:center;padding:1.5vh;z-index:10}
+.box{background:#fff;border:1px solid var(--line);border-radius:3vh;box-shadow:0 2vh 6vh #17261f33;padding:2.4vh;width:min(96vw,1100px);max-height:calc(100dvh - var(--footer-h) - 2vh);overflow-y:auto;scrollbar-width:none;text-align:center;display:flex;flex-direction:column;gap:1.3vh;align-items:center}
+.q2{font-size:3vh;font-weight:700}.ans{font-size:4.2vh;font-weight:800}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:1.2vh;text-align:left;width:100%}
+.rg div{background:var(--soft);border-radius:1.8vh;padding:1.3vh 1.5vh;font-size:1.85vh;line-height:1.4}
+.rg h3{margin:0 0 .5vh;color:var(--acc);font-size:2.3vh}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:1vh;width:100%}
+.st div{background:var(--soft);border-radius:1.6vh;padding:1vh}.st b{display:block;font-size:3.8vh}.st small{font-size:1.7vh;color:var(--mut)}
+.nt{font-size:2vh;text-align:left;width:100%;line-height:1.45}
+textarea{width:100%;height:30vh;border:1px solid var(--line);border-radius:1.4vh;padding:1.2vh;font-size:1.7vh;line-height:1.4;resize:none;background:var(--bg);font-family:ui-monospace,Menlo,Consolas,monospace}
+.hist{width:100%;display:flex;flex-direction:column;gap:.8vh;max-height:50vh;overflow-y:auto}
+.hist div{display:flex;justify-content:space-between;align-items:center;gap:1vh;background:var(--soft);border-radius:1.4vh;padding:1vh 1.4vh;text-align:left;font-size:1.9vh}
+.cf{position:fixed;top:-6vh;width:1.4vh;height:2.2vh;border-radius:.3vh;animation:fall 3.2s linear forwards;z-index:40;pointer-events:none}
+@keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
+@keyframes sway{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
+@keyframes ripple{40%{filter:brightness(.85)}}
+@keyframes out{to{opacity:0}}
+@keyframes pop{0%{transform:scale(.2);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+</style></head><body><div id="app"></div>
+<div id="ft">&copy; 2026 Dream Team Word Striker | Developed by AMSanjeev (Teach For India Fellow 2026&ndash;28)</div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const r=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,pick=a=>a[r(0,a.length-1)];
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const PR=[{"n":"Vowels","k":"w","p":[["Short a","a","Listen for the short /a/ sound in the middle.","cat map bag hat sad pan jam fan lamp crab"],["Short e","e","Listen for the short /e/ sound in the middle.","bed pen net hen red leg web ten nest belt"],["Short i","i","Listen for the short /i/ sound in the middle.","pig sit lip pin win dig kid big milk drip"],["Short o","o","Listen for the short /o/ sound in the middle.","dog hop pot mop box top fox job frog clock"],["Short u","u","Listen for the short /u/ sound in the middle.","sun bug cup mud run hut jug gum duck drum"]]},{"n":"CVC words","k":"w","p":[["Mixed CVC","","Say each sound, then blend them: /m/ /a/ /p/ - map.","map sit hop bed cup pig dog sun hat pen"],["Word families","","Keep the ending the same and change the first sound.","cat mat sat bat fan can man cap map tap"],["Look-alike words","","Check the first, middle and last sound one at a time.","pin pan pen big bag bug hot hit cut sit"]]},{"n":"Consonant blends","k":"w","p":[["Initial blends","st/cl/fl/br/gr/tr/pl/sl/dr/fr/sw/sn","Say both sounds at the start. Do not drop either one.","stop clap frog drum trip plan slip grab swim snap"],["Final blends","nd/mp/lk/st/nt/ft/lt","Listen for both sounds at the end of the word.","hand milk jump nest tent gift belt sand lamp best"]]},{"n":"Digraphs","k":"w","p":[["sh","sh","The letters sh work together to make one sound: /sh/.","ship shop fish shell brush shed wish shut dish shark"],["ch","ch","The letters ch work together to make one sound: /ch/.","chip chin chop lunch chest much rich chat chimp bench"],["th","th","The letters th work together to make one sound: /th/.","this thin that them thick bath with math thank three"],["wh","wh","The letters wh work together to make the /w/ sound.","when whip whisk wheel white which whale wheat"],["ph","ph","The letters ph work together to make the /f/ sound.","phone graph photo phonics dolphin alphabet elephant nephew"],["ck","ck","The letters ck work together to make the /k/ sound at the end.","duck sock back neck kick rock clock truck"]]},{"n":"Long vowels and teams","k":"w","p":[["Silent e","","The silent e at the end makes the vowel say its name.","cake kite bone cube make hide home rope late five"],["ai / ay","ai/ay","The vowel team ai or ay says /a/ as in rain.","rain mail paint snail day play stay tray"],["ee / ea","ee/ea","The vowel team ee or ea says /e/ as in seed.","seed feet tree sheep bean meat beach team"],["oa / ow","oa/ow","The vowel team oa or ow says /o/ as in boat.","boat road soap goat snow grow bowl yellow"]]},{"n":"R-controlled vowels","k":"w","p":[["ar","ar","The letters ar say /ar/ as in car.","car star farm park barn shark yard march"],["or","or","The letters or say /or/ as in corn.","corn fork horse storm sport north born short"],["er / ir / ur","er/ir/ur","The letters er, ir and ur all say /er/ as in bird.","fern bird girl turn burn shirt hurt nurse"]]},{"n":"Multisyllabic words","k":"w","p":[["Two syllables","","Break the word into parts, then read it smoothly.","sun+shine rab+bit pic+nic ten+nis win+dow pen+cil sis+ter foot+ball cap+tain pup+pet"],["Three syllables","","Break the word into parts, then read it smoothly.","re+mem+ber fan+tas+tic ba+na+na but+ter+fly el+e+phant dif+fer+ent com+pu+ter hos+pi+tal yes+ter+day ex+cit+ing"]]},{"n":"Phrases and sentences","k":"s","p":[["Phrases","","Read the words together in one smooth phrase.","a red hat|the big dog|a hot cup|ten fat pigs|the fast truck|a green frog"],["Sentences","","Group the words into meaningful chunks and pause at the full stop.","The ship is big.|The captain passed the ball to his teammate.|The frog jumps into the pond.|Ben ran fast to catch the bus.|The sheep sleep in the green field.|She put a thick blanket on her bed.|The shark swam past the small boat.|We drank cold milk at lunch.|The goat climbed up the steep road."]]},{"n":"Connected passages","k":"p","p":[["Short passages","","Read smoothly in phrases. Then think about what the passage said.","Sam has a red kite. The wind is strong today. Sam runs to the park to fly it.~Where does Sam go?|A little frog sat on a log. Splash! It jumped into the pond to swim with the fish.~What did the frog do?|Mia and Dev made a snow fort. It took them one hour. Then they drank hot milk.~What did they drink?|The team practised every day. On Saturday they played a big match. They won by three goals.~When was the match?|Dad cooked rice and beans for lunch. Everyone said it was tasty. The bowls were empty in ten minutes.~Why were the bowls empty?"]]}];
+// ---------- audio ----------
+let ac,mg,fg,song=0,step=0,nextT=0,tmr,fxOn=true;
+function AU(){if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();mg=ac.createGain();mg.gain.value=.35;mg.connect(ac.destination);fg=ac.createGain();fg.gain.value=.9;fg.connect(ac.destination)}if(ac.state=='suspended')ac.resume();return ac}
+function osc(t,fr,d,ty,v,dest,f2){const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.setValueAtTime(fr,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(dest);o.start(t);o.stop(t+d+.02)}
+function noise(t,d,v,fr,dest,at){const n=ac.sampleRate*d,b=ac.createBuffer(1,n,ac.sampleRate),x=b.getChannelData(0);for(let i=0;i<n;i++)x[i]=Math.random()*2-1;const s=ac.createBufferSource(),fl=ac.createBiquadFilter(),g=ac.createGain();s.buffer=b;fl.type='bandpass';fl.frequency.value=fr;g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(v,t+(at||.01));g.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(fl).connect(g).connect(dest);s.start(t)}
+function choir(t,fr,d,v){const g=ac.createGain(),bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=750;bp.Q.value=2.5;g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(v,t+.06);g.gain.exponentialRampToValueAtTime(.001,t+d);[0,9,-9].forEach(c=>{const o=ac.createOscillator();o.type='sawtooth';o.frequency.value=fr;o.detune.value=c;o.connect(bp);o.start(t);o.stop(t+d+.05)});bp.connect(g).connect(mg)}
+function brass(t,n,d,v){const g=ac.createGain(),lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.setValueAtTime(400,t);lp.frequency.linearRampToValueAtTime(2200,t+.15);g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(v,t+.04);g.gain.exponentialRampToValueAtTime(.001,t+d);n.forEach(m=>{const o=ac.createOscillator();o.type='sawtooth';o.frequency.value=mf(m);o.connect(lp);o.start(t);o.stop(t+d+.05)});lp.connect(g).connect(mg)}
+function fx(n){if(!fxOn)return;try{AU();const t=ac.currentTime;
+if(n=='click')osc(t,700,.08,'square',.15,fg);
+if(n=='ok')[660,880].forEach((x,i)=>osc(t+i*.1,x,.2,'triangle',.22,fg));
+if(n=='bad'){osc(t,330,.25,'sine',.18,fg,250)}
+if(n=='kick'){osc(t,160,.15,'sine',.8,fg,50);noise(t,.1,.4,1500,fg)}
+if(n=='net')noise(t,.5,.5,3000,fg,.02);
+if(n=='post'){osc(t,620,.4,'square',.15,fg,500);noise(t,.15,.4,2500,fg)}
+if(n=='goal'){noise(t,2.8,.7,900,fg,.5);[523,659,784,1047,784,1047].forEach((x,i)=>osc(t+i*.13,x,.3,'sawtooth',.18,fg))}
+if(n=='assist')[659,784,988,1319].forEach((x,i)=>osc(t+i*.09,x,.3,'triangle',.22,fg));
+if(n=='whistle'){const o=ac.createOscillator(),l=ac.createOscillator(),lg=ac.createGain(),g=ac.createGain();o.frequency.value=2800;l.frequency.value=40;lg.gain.value=120;l.connect(lg).connect(o.frequency);g.gain.setValueAtTime(.3,t);g.gain.setValueAtTime(.3,t+.5);g.gain.exponentialRampToValueAtTime(.001,t+.6);o.connect(g).connect(fg);o.start(t);l.start(t);o.stop(t+.65);l.stop(t+.65)}
+}catch(e){}}
+const SONGS=[{n:'Stadium Stomp',bpm:112,k:[0,2,8,10],c:[4,12],h:[0,2,4,6,8,10,12,14],b:[48,0,0,48,0,0,50,0,52,0,0,52,0,0,55,0],m:[0,0,0,0,72,0,0,0,0,0,0,0,76,0,74,0]},
+{n:'Crowd Chant',bpm:104,k:[0,2,8,10],c:[4,12],h:[],b:[],m:[],w:1,v:[64,0,64,0,67,0,0,0,64,0,64,0,69,0,67,0]},
+{n:'Champions Anthem',bpm:116,k:[0,4,8,12],c:[4,12],h:[2,6,10,14],b:[],m:[],w:1,v:[0,0,0,0,69,0,72,0,76,0,0,0,74,0,72,0],p:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]]}];
+const mf=m=>440*2**((m-69)/12);
+function tick(){const s=SONGS[song-1];if(!ac||!s)return;const d=60/s.bpm/2;
+while(nextT<ac.currentTime+.3){const t=nextT,i=step%16;
+if(s.k.includes(i))osc(t,150,.18,'sine',.9,mg,45);
+if(s.c.includes(i))noise(t,.12,.5,1800,mg);
+if(s.h.includes(i))noise(t,.04,.12,7000,mg);
+if(s.b[i])osc(t,mf(s.b[i]),d*1.6,'triangle',.4,mg);
+if(s.m[i])osc(t,mf(s.m[i]),d*1.5,'square',.07,mg);
+if(s.v&&s.v[i])choir(t,mf(s.v[i]),d*1.8,.14);
+if(s.p&&(i==0||i==8))brass(t,s.p[Math.floor(step/16)%s.p.length],d*7,.07);
+if(s.w&&i==0)noise(t,d*16,.16,600,mg,1);
+nextT+=d;step++}}
+function music(){clearInterval(tmr);if(song&&ac){nextT=ac.currentTime+.05;step=0;tmr=setInterval(tick,100)}}
+function songBtn(){AU();song=(song+1)%(SONGS.length+1);music();$('#bs').textContent='Music: '+(song?SONGS[song-1].n:'Off')}
+function fxBtn(b){fxOn=!fxOn;b.textContent='Effects: '+(fxOn?'On':'Off')}
+
+// ---------- accounts (saved on this device only) ----------
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
+const hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join('');
+async function hashPw(pw,salt){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);return hex(new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:100000,hash:'SHA-256'},k,256)))}
+let U=null;
+function auth(mode){mode=mode||'in';const up=mode=='up';
+app.innerHTML=`<div class="auth"><div class="logo">Word <span>Striker</span></div><div class="tag">Reading fluency, one shot at a time</div>
+<div class="card a"><div class="tabs"><button class="${up?'':'on'}" onclick="auth('in')">Sign in</button><button class="${up?'on':''}" onclick="auth('up')">Create account</button></div>
+${up?'<input id="an" placeholder="Your name" autocomplete="name">':''}<input id="ae" type="email" placeholder="Email address" autocomplete="email"><input id="ap" type="password" placeholder="${up?'Create a password (6+ characters)':'Password'}" autocomplete="${up?'new-password':'current-password'}">
+<div class="err" id="aerr"></div><button class="pri" style="font-size:2.4vh;padding:1.3vh" onclick="doAuth('${mode}')">${up?'Create account':'Sign in'}</button><button class="lnk" onclick="guest()">Continue without an account</button>
+<div class="fine">Accounts and saved records stay on this device. Passwords are scrambled in your browser and never sent anywhere.</div></div></div>`}
+async function doAuth(mode){const e=($('#ae').value||'').trim().toLowerCase(),p=$('#ap').value||'',n=mode=='up'?($('#an').value||'').trim():'',er=$('#aerr');
+if(!/^\S+@\S+\.\S+$/.test(e))return er.textContent='Enter a valid email address.';
+if(p.length<6)return er.textContent='Password needs at least 6 characters.';
+const A=LS.get('ws_accts')||{};try{
+if(mode=='up'){if(A[e])return er.textContent='That email already has an account. Sign in instead.';const salt=hex(crypto.getRandomValues(new Uint8Array(12)));A[e]={name:n||e.split('@')[0],salt,hash:await hashPw(p,salt)};if(!LS.set('ws_accts',A))return er.textContent='This browser is blocking storage, so accounts cannot be saved.'}
+else{if(!A[e]||A[e].hash!==await hashPw(p,A[e].salt))return er.textContent='Email or password is not right.'}
+}catch(x){return er.textContent='Sign-in is not available in this browser.'}
+U={email:e,name:A[e].name};LS.set('ws_session',e);setup()}
+function guest(){U=null;setup()}
+function signOut(){LS.set('ws_session',null);U=null;auth()}
+// ---------- state ----------
+let S={names:[],prog:1,pats:new Set([0]),ch:'practice',len:10};
+const CH={supported:'Supported',practice:'Practice',challenge:'Challenge'};
+const ROUNDS=['Warm-up','Main Match','Championship'];
+const ROW={read:'Read correctly',self:'Self-corrected',prompt:'Needed a prompt',no:'Not yet accurate'};
+const RS=()=>S.len==5?[1,3,1]:S.len==15?[3,8,4]:[2,5,3];
+const roundOf=i=>{const R=RS();return i<R[0]?0:i<R[0]+R[1]?1:2};
+const items=P=>P[3].split(PR[S.prog].k=='w'?' ':'|');
+// ---------- setup and rules ----------
+function setup(){closeM();S.live=false;const pr=PR[S.prog];
+app.innerHTML=`<div class="hdr"><div class="brand">Word <span>Striker</span></div><div class="row">${U?`<span class="fine">${esc(U.name)}</span><button class="ghost" onclick="history_()">Saved records</button><button class="ghost" onclick="signOut()">Sign out</button>`:`<span class="fine">Guest</span><button class="ghost" onclick="auth()">Sign in</button>`}</div></div>
+<div class="setup"><div class="title">Dream Team <span>Word Striker</span></div><div class="sub">SOLO MATCH SETUP</div>
+<div class="sec"><div class="lbl">Student name</div><div class="row"><input maxlength="16" placeholder="Name" value="${esc(S.names[0]||'')}" oninput="S.names[0]=this.value" onkeydown="if(event.key=='Enter')toRules()"></div></div>
+<div class="sec"><div class="lbl">Reading progression</div><div class="row">${PR.map((p,i)=>`<button class="opt ${S.prog==i?'on':''}" onclick="S.prog=${i};S.pats=new Set([0]);setup()">${p.n}</button>`).join('')}</div></div>
+<div class="sec"><div class="lbl">Target patterns (one or more)</div><div class="row">${pr.p.map((p,i)=>`<button class="opt ${S.pats.has(i)?'on':''}" onclick="togP(${i})">${p[0]}</button>`).join('')}</div></div>
+<div class="two"><div><div class="lbl">Challenge level</div><div class="row">${Object.keys(CH).map(k=>`<button class="opt ${S.ch==k?'on':''}" onclick="S.ch='${k}';setup()">${CH[k]}</button>`).join('')}</div></div>
+<div><div class="lbl">Match length</div><div class="row">${[5,10,15].map(k=>`<button class="opt ${S.len==k?'on':''}" onclick="S.len=${k};setup()">${k} shots</button>`).join('')}</div></div></div>
+<div class="err" id="err"></div><button class="pri big" onclick="toRules()">Read the rules</button></div>`}
+function togP(i){if(S.pats.has(i)){if(S.pats.size>1)S.pats.delete(i)}else S.pats.add(i);setup()}
+function toRules(){const nm=(S.names[0]||'').trim();if(!nm){$('#err').textContent='Please type the student name.';return}S.names=[nm];AU();rules()}
+function rules(){const g=S.live,R=RS();
+modal(`<div class="ans" style="font-size:3.6vh">Solo match rules</div><div class="rg">
+<div><h3>1. Solo match</h3>One student plays the whole match alone, one shot at a time. There are no teams and no opponents: the goal is to beat your own best. Classmates may cheer quietly but must not call out the word. Speed is never scored, so take thinking time.</div>
+<div><h3>2. How every shot works</h3>1. A word appears. Look at it first.<br>2. The student reads it aloud.<br>3. The student presses Done.<br>4. The teacher says how the student read it.<br>5. A goal, assist or training assist is scored.<br>6. Next ball. Nobody is out.</div>
+<div><h3>3. Scoring</h3><b>Goal (2):</b> read correctly, or self-corrected.<br><b>Assist (1):</b> needed a prompt, then reread alone.<br><b>Training assist (0):</b> modelled and repeated, then keep practising.<br><b>Fair Play (+1):</b> awarded by the teacher for careful rereading, encouragement and effort.<br>Shot points: up to ${2*S.len} for ${S.len} shots, plus any Fair Play points.</div>
+<div><h3>4. Teacher buttons</h3><b>Read correctly:</b> accurate on the first read.<br><b>Self-corrected:</b> misread, then fixed it alone.<br><b>Needed a prompt:</b> a hint, then a retry.<br><b>Not yet accurate:</b> model the word, then reread together.</div>
+<div><h3>5. Match rounds</h3>${ROUNDS.map((n,i)=>`<b>${n}:</b> ${R[i]} shot${R[i]>1?'s':''}`).join('<br>')}<br>Words start easier in the Warm-up and get harder in the Championship. Three correct first reads in a row also make the next word harder. Patterns the student finds tricky come back more often.</div>
+<div><h3>6. Challenge levels</h3><b>Supported:</b> target letters are highlighted and word parts are shown.<br><b>Practice:</b> plain words with a gentle mix.<br><b>Challenge:</b> harder words only, no highlights.</div>
+<div style="grid-column:1/-1"><h3>7. Running record</h3>At full time the teacher sees accuracy, words read correctly first try, self-corrections, supported successes, training assists, words to revisit and a next practice target. Signed-in teachers can save records on this device and email them.</div></div>
+<button class="pri big" style="font-size:2.8vh;padding:1.1vh 4vh" onclick="${g?'closeM()':'begin()'}">${g?'Back to match':'Kick off'}</button>`)}
+// ---------- match ----------
+function begin(){closeM();S.live=true;S.sc=0;S.fp=0;S.rec=[];S.used={};S.miss={};S.streak=0;S.shot=0;S.t0=Date.now();AU();music();fx('whistle');nextShot()}
+function mkItem(){const pr=PR[S.prog],ids=[...S.pats],key=i=>S.prog+'_'+i,wt=ids.map(i=>1+3*(S.miss[key(i)]||0));
+let x=Math.random()*wt.reduce((a,b)=>a+b),pi=ids[0];for(let k=0;k<ids.length;k++){x-=wt[k];if(x<=0){pi=ids[k];break}}
+const P=pr.p[pi],L=items(P),u=S.used[key(pi)]=S.used[key(pi)]||new Set();let c=L.map((_,i)=>i).filter(i=>!u.has(i));if(!c.length){u.clear();c=L.map((_,i)=>i)}
+const rd=roundOf(S.shot),hard=S.ch=='challenge'||rd==2||S.streak>=3,easy=rd==0&&S.streak<3&&S.ch!='challenge',n=L.length;
+const c2=c.filter(i=>hard?i>=Math.floor(n*.4):easy?i<Math.ceil(n*.6):true);if(c2.length)c=c2;
+const i=pick(c);u.add(i);const e=L[i],it={pi,P,k:pr.k,key:key(pi),rd};
+if(pr.k=='w'){it.disp=e.replace(/\+/g,'');it.seg=e.split('+').join(' + ')}else if(pr.k=='s')it.disp=e;else{const t=e.split('~');it.disp=t[0];it.q=t[1]}
+return it}
+function hl(w,P){if(!P[1])return esc(w);const re=new RegExp('('+P[1].split('/').sort((a,b)=>b.length-a.length).join('|')+')','gi');return esc(w).replace(re,'<span class="hl">$1</span>')}
+function wordHTML(it){if(it.k=='w'){const sup=S.ch=='supported';return sup&&it.seg.includes('+')?esc(it.seg):sup?hl(it.disp,it.P):esc(it.disp)}return `<span>${esc(it.disp)}</span>`}
+function sbHTML(){const mid=`<div class="mid">${ROUNDS[roundOf(Math.min(S.shot,S.len-1))].toUpperCase()}<small>Shot ${Math.min(S.shot+1,S.len)} of ${S.len}</small></div>`;
+return `<div class="tm"><b>${esc(S.names[0])}</b><div class="n">${S.sc}</div></div>`+mid+`<div class="tm"><b>Shots left</b><div class="n">${S.len-S.shot}</div><button onclick="fair()">Fair Play +1</button></div>`}
+function fair(){S.sc++;S.fp++;fx('assist');$('#sb').innerHTML=sbHTML()}
+const KEEPER=`<svg viewBox="0 0 60 100"><line x1="25" y1="56" x2="22" y2="92" stroke="#2b3b34" stroke-width="8" stroke-linecap="round"/><line x1="35" y1="56" x2="38" y2="92" stroke="#2b3b34" stroke-width="8" stroke-linecap="round"/><rect x="19" y="22" width="22" height="36" rx="6" fill="#2b3b34"/><line x1="21" y1="27" x2="6" y2="8" stroke="#2b3b34" stroke-width="7" stroke-linecap="round"/><line x1="39" y1="27" x2="54" y2="8" stroke="#2b3b34" stroke-width="7" stroke-linecap="round"/><circle cx="6" cy="8" r="6" fill="#e0a030"/><circle cx="54" cy="8" r="6" fill="#e0a030"/><circle cx="30" cy="13" r="9" fill="#2b3b34"/></svg>`;
+const BALL=`<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#fff" stroke="#2b3b34" stroke-width="1.8"/><polygon points="20,11 28,17 25,27 15,27 12,17" fill="#2b3b34"/><path d="M20 11V2M28 17l9-3M25 27l6 8M15 27l-6 8M12 17l-9-3" stroke="#2b3b34" stroke-width="1.6"/></svg>`;
+function nextShot(){S.it=mkItem();S.stage='read';S.oral0='';render()}
+function render(){const it=S.it,t=S.names[0];
+app.innerHTML=`<div class="hdr"><div class="brand">Word <span>Striker</span></div><div class="row"><button class="ghost" id="bs" onclick="songBtn()">Music: ${song?SONGS[song-1].n:'Off'}</button><button class="ghost" onclick="fxBtn(this)">Effects: ${fxOn?'On':'Off'}</button><button class="ghost" onclick="rules()">Rules</button><button class="ghost" onclick="newMatch()">New match</button></div></div>
+<div id="sb" class="card">${sbHTML()}</div><div class="main"><div class="scene" id="scene"><div class="board">DREAM TEAM STADIUM</div><div class="goal" id="goal"><div class="keeper" id="keeper">${KEEPER}</div></div><div class="spot"></div><div class="ball" id="ball">${BALL}</div></div>
+<div class="pan card"><div class="rd">${it.k=='w'?'READ THE WORD ALOUD':it.k=='s'?'READ ALOUD':'READ THE PASSAGE ALOUD'}</div>
+<div class="word ${it.k=='w'?'':it.k}" id="word">${wordHTML(it)}</div>
+<div class="ref" id="ref">${esc(t)} is up. Take your time.${S.ch=='supported'&&it.P[1]&&it.k=='w'?' Look for: '+it.P[1].split('/').join(', ')+'.':''}</div>
+<div id="tp"><button class="pri done" onclick="done()">Done</button></div></div></div>`}
+function done(){if(S.stage!='read')return;S.stage='oral';fx('click');$('#ref').textContent='Teacher: how did the student read it?';
+$('#tp').innerHTML=`<div class="tp">${S.it.q?`<div class="pr">Ask aloud: <b>${esc(S.it.q)}</b></div>`:''}<div class="tb"><button class="g1" onclick="oral('read')">Read correctly</button><button class="g2" onclick="oral('self')">Self-corrected</button><button class="g3" onclick="oral('prompt')">Needed a prompt</button><button class="g4" onclick="oral('no')">Not yet accurate</button></div></div>`}
+function oral(k){if(S.stage!='oral')return;S.oral0=k;if(k=='read'||k=='self')return resolve(2);
+S.stage='retry';fx('click');const it=S.it,seg=it.k=='w'&&it.seg.includes('+')?`<br>Parts: <b>${esc(it.seg)}</b>`:'';
+$('#ref').textContent='Not yet. Let us look closer together.';
+$('#tp').innerHTML=`<div class="tp"><div class="pr">Teaching prompt: ${esc(it.P[2])}${seg}</div><div class="tb"><button class="g1" onclick="resolve(1)">Reread alone (1 point)</button><button class="g4" onclick="resolve(0)">Modelled together (0)</button></div></div>`}
+function resolve(p){if(S.stage=='done')return;S.stage='done';const it=S.it,kind=p==2?'goal':p==1?'assist':'team',ind=S.oral0=='read';
+S.rec.push({w:it.disp,pi:it.pi,pat:it.P[0],oral:S.oral0,p});S.sc+=p;
+if(S.oral0=='prompt'||S.oral0=='no')S.miss[it.key]=(S.miss[it.key]||0)+1;S.streak=ind?S.streak+1:0;
+$('#tp').innerHTML='';const msg=kind=='goal'?(S.oral0=='self'?'Goal! Great self-correction.':'Goal! Read on your own.'):kind=='assist'?'Good effort. You got there with support. 1 point.':'Well tried. We will keep practising this pattern.';
+shot(kind,()=>{$('#ref').textContent=msg;$('#sb').innerHTML=sbHTML();$('#tp').innerHTML=`<button class="pri done" onclick="nextBall()">${S.shot+1>=S.len?'Full time':'Next ball'}</button>`})}
+function nextBall(){S.shot++;if(S.shot>=S.len)return report();nextShot()}
+function shot(kind,cb){const sc=$('#scene'),gl=$('#goal'),ball=$('#ball'),kp=$('#keeper'),P=sc.getBoundingClientRect(),g=gl.getBoundingClientRect(),
+c=e=>{const q=e.getBoundingClientRect();return[q.left+q.width/2,q.top+q.height/2]},[bx,by]=c(ball);
+const left=Math.random()<.5,tx=g.left+g.width*(left?r(15,30):r(70,85))/100,ty=g.top+g.height*r(25,65)/100;
+const px=kind=='team'?(left?g.left:g.right):tx,py=kind=='team'?g.top+g.height*.4:ty,dur=kind=='assist'?1150:850;
+fx('kick');
+ball.animate([{transform:'none'},{transform:`translate(${(px-bx)*.6}px,${(py-by)*.6-P.height*.08}px) scale(.8) rotate(360deg)`,offset:.6},{transform:`translate(${px-bx}px,${py-by}px) scale(.5) rotate(720deg)`}],{duration:dur,easing:'cubic-bezier(.3,.6,.5,1)',fill:'forwards'});
+const away=(left?1:-1)*g.width*(kind=='team'?.2:.3);
+kp.firstElementChild.animate([{transform:'none'},{transform:`translate(${away}px,${-g.height*.1}px) rotate(${left?70:-70}deg)`}],{duration:550,delay:300,easing:'ease-out',fill:'forwards'});
+setTimeout(()=>{const b=document.createElement('div');b.className='bn '+kind;b.textContent=kind=='goal'?'GOAL':kind=='assist'?'ASSIST':'TRAINING';sc.appendChild(b);
+if(kind=='team'){fx('post');ball.animate([{transform:`translate(${px-bx}px,${py-by}px) scale(.5)`},{transform:`translate(${(px-bx)*.7}px,${(py-by)+g.height*.5}px) scale(.8)`}],{duration:500,fill:'forwards'})}
+else{fx('net');gl.classList.add('net');fx(kind=='goal'?'goal':'assist')}},dur);
+setTimeout(cb,dur+700)}
+// ---------- full time and running record ----------
+const short=(w,n)=>w.length>n?w.slice(0,n-3)+'...':w;
+function report(){S.live=false;const R=S.rec,N=R.length,ind=R.filter(x=>x.oral=='read').length,self=R.filter(x=>x.oral=='self').length,sup=R.filter(x=>x.p==1).length,team=R.filter(x=>x.p==0).length,err=R.filter(x=>x.oral=='prompt'||x.oral=='no').length,acc=Math.round((N-err)/N*100);
+const ms=Date.now()-S.t0,tm=Math.floor(ms/60000)+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');
+const hard=[...new Set(R.filter(x=>x.oral=='prompt'||x.oral=='no').map(x=>short(x.w,30)))];
+const mc={};R.filter(x=>x.oral=='prompt'||x.oral=='no').forEach(x=>mc[x.pat]=(mc[x.pat]||0)+1);const worst=Object.keys(mc).sort((a,b)=>mc[b]-mc[a])[0];
+const next=worst?'More '+worst+' with teacher support.':'Try less familiar words in this progression.';
+const pr=PR[S.prog],sc=S.sc,d=new Date();
+const c={id:Date.now(),date:d.toLocaleDateString()+' '+d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),teacher:U?U.name:'',names:[S.names[0]],mode:'solo',prog:pr.n,pats:[...S.pats].map(i=>pr.p[i][0]),ch:CH[S.ch],len:S.len,score:sc,fp:S.fp,ind,self,sup,team,acc,time:tm,hard,next,rec:R};
+if(U){const k='ws_rec_'+U.email,a=LS.get(k)||[];a.unshift(c);LS.set(k,a.slice(0,30))}
+const good=[];if(ind>=N*.7)good.push('Read most words independently.');if(self)good.push('Used self-correction '+self+' time'+(self>1?'s':'')+'.');if(!good.length)good.push('Kept going and learned from every shot.');
+const head=esc(S.names[0])+' scored '+sc+' points';
+S.cur=c;fx('goal');cf(50);
+modal(`<div class="title" style="font-size:4vh">Full time</div><div class="ans" style="font-size:3.4vh">${head}</div>
+<div class="q2" style="font-size:2.4vh;color:var(--mut)">Total score: ${sc} | Shot points: ${sc-c.fp} / ${2*N} | Fair Play awards: ${c.fp}</div>
+<div class="st"><div><b>${acc}%</b><small>Accuracy</small></div><div><b>${ind}/${N}</b><small>Read correctly, first try</small></div><div><b>${self}</b><small>Self-corrections</small></div><div><b>${sup}</b><small>Supported successes</small></div><div><b>${team}</b><small>Training assists</small></div><div><b>${tm}</b><small>Match time</small></div></div>
+<div class="nt"><b>What went well:</b> ${good.join(' ')}<br><b>Words to revisit:</b> ${hard.length?esc(hard.slice(0,8).join(', ')):'none this match'}<br><b>Next practice target:</b> ${esc(next)}</div>
+<div class="row"><button class="pri" style="font-size:2.6vh" onclick="sendRec(S.cur)">Send report to teacher email</button><button style="font-size:2.4vh" onclick="begin()">Play again</button><button style="font-size:2.4vh" onclick="setup()">New match</button></div>`)}
+function recText(c){let t=`WORD STRIKER - SOLO RUNNING RECORD\nDate: ${c.date}\nTeacher: ${c.teacher||'-'}\nStudent: ${c.names.join(' vs ')}\nProgression: ${c.prog} (${c.pats.join(', ')})\nSupport level: ${c.ch}\n\n`;
+c.rec.forEach((x,i)=>{t+=`${i+1}. ${short(x.w,48)} - ${ROW[x.oral]}${x.oral=='prompt'||x.oral=='no'?(x.p==1?' (then reread alone)':' (modelled together)'):''}\n`});
+return t+`\nWords: ${c.rec.length}\nAccuracy: ${c.acc}%\nRead correctly first try: ${c.ind}\nSelf-corrections: ${c.self}\nSupported successes: ${c.sup}\nTraining assists: ${c.team}\nScore: ${c.score} (Fair Play awards: ${c.fp})\nWords to revisit: ${c.hard.join(', ')||'none'}\nNext practice target: ${c.next}\nMatch time: ${c.time}\n`}
+function recCSV(c){const q=v=>'"'+String(v).replace(/"/g,'""')+'"';return ['Date,Student,Progression,Pattern,Item,Result,Points'].concat(c.rec.map(x=>[c.date,c.names[0],c.prog,x.pat,x.w,ROW[x.oral],x.p].map(q).join(','))).join('\n')}
+function sendRec(c){S.cur=c;modal(`<div class="ans" style="font-size:3.4vh">Running record</div><textarea id="rt" readonly>${esc(recText(c))}</textarea><input id="em" type="email" placeholder="Teacher email address" value="${esc(U?U.email:'')}">
+<div class="row"><button class="pri" onclick="mail()">Open email draft</button><button onclick="copyRec()">Copy text</button><button id="dl" style="display:none" onclick="saveRec()">Save as CSV</button><button onclick="closeM()">Close</button></div><div class="fine" id="mm">Your email app opens with the record filled in. Press send there. If nothing opens, use Copy text.</div>`);
+try{(window.claude&&claude.use?claude.use('downloads'):Promise.resolve(null)).then(d=>{S.dl=d;if(d&&$('#dl'))$('#dl').style.display=''}).catch(()=>{})}catch(e){}}
+function msg(t){const m=$('#mm');if(m)m.textContent=t}
+function mail(){const em=($('#em').value||'').trim(),c=S.cur;if(!/^\S+@\S+\.\S+$/.test(em))return msg('Please enter a valid email address.');
+let b=recText(c);const sj=encodeURIComponent('Running record: '+c.names.join(' vs ')+' - '+c.date);
+while(encodeURIComponent(b).length>1700)b=b.slice(0,-60);const a=document.createElement('a');a.href='mailto:'+em+'?subject='+sj+'&body='+encodeURIComponent(b);a.target='_top';document.body.appendChild(a);a.click();a.remove();
+msg('If your email app did not open, press Copy text and paste the record into an email.')}
+function copyRec(){const t=recText(S.cur);const fb=()=>{const x=$('#rt');x.removeAttribute('readonly');x.select();try{document.execCommand('copy');msg('Copied. Paste it into an email.')}catch(e){msg('Select the text above and copy it.')}x.setAttribute('readonly','')};
+try{navigator.clipboard.writeText(t).then(()=>msg('Copied. Paste it into an email.')).catch(fb)}catch(e){fb()}}
+function saveRec(){if(!S.dl)return;S.dl.save({filename:'running-record-'+new Date().toISOString().slice(0,10)+'.csv',data:recCSV(S.cur)}).then(()=>msg('Saved.')).catch(e=>msg(e&&e.code=='declined'?'Save cancelled.':'Saving is not available here. Use Copy text.'))}
+function history_(){const a=LS.get('ws_rec_'+U.email)||[];modal(`<div class="ans" style="font-size:3.4vh">Saved running records</div><div class="hist">${a.length?a.map((c,i)=>`<div><span><b>${esc(c.names.join(' vs '))}</b> | ${esc(c.prog)} | ${c.acc}% | ${esc(c.date)}</span><button onclick="sendRec(LS.get('ws_rec_'+U.email)[${i}])">Open</button></div>`).join(''):'<div>No records yet. Finish a match to save one.</div>'}</div><button onclick="closeM()">Close</button>`)}
+function newMatch(){fx('click');modal(`<div class="ans">Start a new match?</div><div class="q2" style="color:var(--mut)">The current score will be lost.</div><div class="row"><button class="pri big" style="font-size:2.8vh" onclick="setup()">Yes, new match</button><button style="font-size:2.8vh" onclick="closeM()">Cancel</button></div>`)}
+function cf(n){const C=['#1f7a57','#e0a030','#9cc9b4','#2b3b34','#f1d38a'];for(let i=0;i<n;i++){const d=document.createElement('span');d.className='cf';d.style.cssText=`left:${r(0,98)}vw;background:${pick(C)};animation-delay:${Math.random()*1.6}s`;document.body.appendChild(d);setTimeout(()=>d.remove(),5500)}}
+function modal(h){closeM();const o=document.createElement('div');o.className='ov';o.id='mod';o.innerHTML=`<div class="box">${h}</div>`;document.body.appendChild(o)}
+function closeM(){const o=$('#mod');if(o)o.remove()}
+{const A=LS.get('ws_accts')||{},s=LS.get('ws_session');if(s&&A[s]){U={email:s,name:A[s].name};setup()}else auth()}
+</script></body></html>
